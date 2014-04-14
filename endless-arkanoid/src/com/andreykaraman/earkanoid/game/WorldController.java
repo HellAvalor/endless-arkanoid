@@ -107,34 +107,8 @@ public class WorldController extends InputAdapter implements Disposable {
 		polygonShape.dispose();
 
 		for (Ball ballForPhysics : level.balls) {
-			bodyDef = new BodyDef();
-			bodyDef.type = BodyType.DynamicBody;
-			bodyDef.position.set(ballForPhysics.position.x
-					+ ballForPhysics.dimension.x / 2, ballForPhysics.position.y
-					+ ballForPhysics.dimension.y / 2);
-			bodyDef.angle = 0f;
 
-			body = b2world.createBody(bodyDef);
-
-			ballForPhysics.body = body;
-			ballForPhysics.body.setLinearVelocity(new Vector2(speed, speed));
-			ballForPhysics.body.setActive(true);
-			CircleShape circleShape = new CircleShape();
-
-			circleShape.setRadius(ballForPhysics.dimension.x / 2);
-			fixtureDef = new FixtureDef();
-
-			fixtureDef.shape = circleShape;
-			fixtureDef.friction = 0f;
-			fixtureDef.restitution = 1f;
-			fixtureDef.density = 0.1f;
-			// body.getFixtureList().get(0).setSensor(true);
-
-			// body.getFixtureList().get(0).setUserData("ball");
-			// ballForPhysics.body.getFixtureList().get(0).setUserData("ball");
-			ballForPhysics.body.createFixture(fixtureDef);
-			ballForPhysics.body.getFixtureList().get(0).setUserData("ball");
-			circleShape.dispose();
+			setBall(ballForPhysics, ballForPhysics.position);
 		}
 
 		for (Brick brickForPhysics : level.bricks) {
@@ -300,6 +274,10 @@ public class WorldController extends InputAdapter implements Disposable {
 		else if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
 			// backToMenu();
 		}
+
+		else if (keycode == Keys.SPACE) {
+			addBall(level.balls.get(0));
+		}
 		return false;
 	}
 
@@ -310,7 +288,6 @@ public class WorldController extends InputAdapter implements Disposable {
 	}
 
 	public boolean isGameOver() {
-
 		return lives < 0;
 
 	}
@@ -414,6 +391,45 @@ public class WorldController extends InputAdapter implements Disposable {
 
 	public void setPhisicsDensityY(float phisicsDensityY) {
 		this.phisicsDensityY = phisicsDensityY;
+	}
+
+	private void addBall(Ball copyBall) {
+
+		Ball ball = new Ball();
+		setBall(ball, copyBall.position);
+		level.balls.add(ball);
+	}
+
+	private void setBall(Ball ball, Vector2 postition) {
+
+		ball.position.set(postition);
+
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyType.DynamicBody;
+		bodyDef.position.set(ball.position);
+		bodyDef.angle = 0f;
+
+		Body body = b2world.createBody(bodyDef);
+
+		ball.body = body;
+		ball.body.setLinearVelocity(new Vector2(speed, speed));
+		ball.body.setActive(true);
+		CircleShape circleShape = new CircleShape();
+
+		circleShape.setRadius(ball.dimension.x / 2);
+		FixtureDef fixtureDef = new FixtureDef();
+
+		fixtureDef.shape = circleShape;
+		fixtureDef.friction = 0f;
+		fixtureDef.restitution = 1f;
+		fixtureDef.density = 0.1f;
+		// body.getFixtureList().get(0).setSensor(true);
+
+		// body.getFixtureList().get(0).setUserData("ball");
+		// ballForPhysics.body.getFixtureList().get(0).setUserData("ball");
+		ball.body.createFixture(fixtureDef);
+		ball.body.getFixtureList().get(0).setUserData("ball");
+		circleShape.dispose();
 	}
 
 }

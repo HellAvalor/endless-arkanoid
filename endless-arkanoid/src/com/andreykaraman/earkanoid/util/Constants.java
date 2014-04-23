@@ -15,7 +15,7 @@ public class Constants {
 	// GUI Height
 	public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
 	// Amount of extra lives at level start
-	public static final int LIVES_START = 2;
+	public static final int LIVES_START = 4;
 	// Location of description file for texture atlas
 	public static final String TEXTURE_ATLAS_OBJECTS = "images/earkanoid.pack";
 	public static final String LEVEL_01 = "levels/level_01.png";

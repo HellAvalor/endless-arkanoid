@@ -1,0 +1,47 @@
+
+earkanoid.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ball
+  rotate: false
+  xy: 232, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+bonus_brick
+  rotate: false
+  xy: 104, 7
+  size: 30, 15
+  orig: 30, 15
+  offset: 0, 0
+  index: -1
+double_brick
+  rotate: false
+  xy: 136, 7
+  size: 30, 15
+  orig: 30, 15
+  offset: 0, 0
+  index: -1
+platform
+  rotate: false
+  xy: 2, 2
+  size: 100, 20
+  orig: 100, 20
+  offset: 0, 0
+  index: -1
+simple_brick
+  rotate: false
+  xy: 168, 7
+  size: 30, 15
+  orig: 30, 15
+  offset: 0, 0
+  index: -1
+undestr_brick
+  rotate: false
+  xy: 200, 8
+  size: 30, 14
+  orig: 30, 14
+  offset: 0, 0
+  index: -1

@@ -61,7 +61,7 @@ public class Platform extends AbstractGameObject {
 		bounds.set(0, 0, dimension.x, dimension.y);
 		// Set physics values
 		terminalVelocity.set(0f, 0f);
-		friction.set(0.9f,0f);
+		friction.set(0.99f,0f);
 		acceleration.set(0.0f, 0.0f);
 
 		// PolygonShape polygonShape = new PolygonShape();
@@ -216,6 +216,6 @@ public class Platform extends AbstractGameObject {
 				reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(),
 				reg.getRegionHeight(), false, false);
 		// Reset color to white
-		batch.setColor(1, 1, 1, 1);
+		//batch.setColor(1, 1, 1, 1);
 	}
 }

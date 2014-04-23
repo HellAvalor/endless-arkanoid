@@ -214,7 +214,7 @@ public class WorldController extends InputAdapter implements Disposable {
 
 			platformRight();
 		} else if (Gdx.input.isTouched()) {
-			ChangeNavigation(Gdx.input.getX(), Gdx.input.getY());
+			ChangeNavigation2(Gdx.input.getX(), Gdx.input.getY());
 		} else {
 			platformStop();
 		}
@@ -298,43 +298,45 @@ public class WorldController extends InputAdapter implements Disposable {
 			b2world.dispose();
 	}
 
-	private void ChangeNavigation(int x, int y) {
-
-		float touchX = x / (Gdx.graphics.getWidth() / phisicsDensityX);
-		touchX = touchX * (Constants.VIEWPORT_WIDTH / phisicsDensityX)
-				+ (Constants.VIEWPORT_WIDTH - phisicsDensityX) / 2;
-		touchX = Math.max(1f, touchX);
-		touchX = (float) Math.min(Constants.VIEWPORT_WIDTH - 1, touchX);
-		Gdx.app.debug(TAG, "------------------------------");
-		Gdx.app.debug(TAG, "platfrom x " + level.platform.body.getPosition().x
-				+ " toch x " + x / phisicsDensityX + " toch y " + y
-				/ phisicsDensityY);
-		Gdx.app.debug(TAG, " toch x " + touchX);
-		Gdx.app.debug(TAG, " phisicsDensityX " + phisicsDensityX
-				+ " phisicsDensityY " + phisicsDensityY);
-
+	private void ChangeNavigation2(int x, int y) {
+		float touchX = x * (phisicsDensityX / Gdx.graphics.getWidth())
+				- (phisicsDensityX - Constants.VIEWPORT_WIDTH) / 2;
 		float delta = Math.abs(touchX - level.platform.body.getPosition().x);
-		Gdx.app.debug(TAG, " delta " + delta);
 
-		// if (touchX < (phisicsDensityX - Constants.VIEWPORT_WIDTH) / 2)
-		// x = 0;
-		Gdx.app.debug(TAG, " toch x " + x + " toch y " + y);
+		Gdx.app.debug(TAG, "-------------ChangeNavigation2-----------------");
+		Gdx.app.debug(TAG, "platfrom x " + level.platform.body.getPosition().x
+				+ " toch x " + touchX + " x " + x);
+		Gdx.app.debug(TAG,
+				" Gdx.graphics.getWidth() " + Gdx.graphics.getWidth()
+						+ " phisicsDensityX " + phisicsDensityX + " delta "
+						+ delta);
+		touchX = Math.max(1f + level.platform.dimension.x / 2, touchX);
+		touchX = (float) Math.min(Constants.VIEWPORT_WIDTH - 1
+				- level.platform.dimension.x / 2, touchX);
 		// если левее выше перса, то указываем, чтобы игрок двигался влево
-		if (touchX < level.platform.body.getPosition().x) {
-			platformLeft(delta);
-		}
-		// если кликнули правее перса, то указываем, чтобы игрок двигался вправо
-		if (touchX > level.platform.body.getPosition().x) {
-			platformRight(delta);
-		}
+		/*
+		 * if (touchX < level.platform.body.getPosition().x) {
+		 * platformLeft(delta);
+		 * }
+		 * // если кликнули правее перса, то указываем, чтобы игрок двигался
+		 * вправо
+		 * if (touchX > level.platform.body.getPosition().x) {
+		 * platformRight(delta);
+		 * }
+		 */
+		platformPositionSet(touchX);
+		// float delta = Math.abs(touchX - level.platform.body.getPosition().x);
 	}
+
+
 
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
 
 		if (!Gdx.app.getType().equals(ApplicationType.Android))
 			return false;
-		ChangeNavigation(x, y);
+		ChangeNavigation2(x, y);
+		Gdx.app.debug(TAG, "-------------touchDown-----------------");
 		return true;
 	}
 
@@ -344,12 +346,15 @@ public class WorldController extends InputAdapter implements Disposable {
 			return false;
 
 		platformStop();
+		Gdx.app.debug(TAG, "-------------touchUp-----------------");
 		return true;
 	}
 
 	@Override
 	public boolean touchDragged(int x, int y, int pointer) {
-		ChangeNavigation(x, y);
+		// ChangeNavigation(x, y);
+		ChangeNavigation2(x, y);
+		Gdx.app.debug(TAG, "-------------touchDragged-----------------");
 		return false;
 	}
 
@@ -383,6 +388,11 @@ public class WorldController extends InputAdapter implements Disposable {
 
 	private void platformStop() {
 		level.platform.body.setLinearVelocity(0, 0);
+	}
+
+	private void platformPositionSet(float x) {
+		level.platform.body.setTransform(x - level.platform.dimension.x / 2, 0,
+				0);
 	}
 
 	public void setPhisicsDensityX(float phisicsDensityX) {

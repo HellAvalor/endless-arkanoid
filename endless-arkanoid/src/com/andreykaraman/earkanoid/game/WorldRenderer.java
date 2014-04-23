@@ -139,13 +139,13 @@ public class WorldRenderer implements Disposable {
 
 		worldController.setPhisicsDensityX(phisicsDensityX);
 		worldController.setPhisicsDensityY(phisicsDensityY);
-		
+		Gdx.app.debug(TAG,"-------------recalcPhisDensity()-------------");
 		Gdx.app.debug(TAG, "Gdx.graphics.getWidth() " + Gdx.graphics.getWidth()
 				+ " Gdx.graphics.getHeight() " + Gdx.graphics.getHeight()
 				+ " screenProp " + screenProp);
 		Gdx.app.debug(TAG, "phisicsDensityX " + phisicsDensityX
 				+ " phisicsDensityY " + phisicsDensityY + " deltaX " + deltaX
 				+ " deltaY " + deltaY);
-
+		Gdx.app.debug(TAG,"---------------------------------------------");
 	}
 }

@@ -37,12 +37,9 @@ public class MyContactListener implements ContactListener {
 		}
 
 		if (body != null) {
-			// Brick brick = (Brick) body.getUserData();
-			// Gdx.app.debug(TAG, "Brick "+brick);
-			body.getFixtureList().get(0).setUserData("delete");
-			WorldController.deleteBodyArray.add(body);
-			// body.setActive(false);
-			// world.destroyBody(body);
+
+			body.getFixtureList().get(0).setUserData("toched");
+			
 
 			Gdx.app.debug(TAG, "Destroy body");
 		}
@@ -56,41 +53,11 @@ public class MyContactListener implements ContactListener {
 
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
-		/*
-		 * String p =""; WorldManifold manifold = contact.getWorldManifold();
-		 * for(int j = 0; j < manifold.getNumberOfContactPoints(); j++) {
-		 * p+="["+
-		 * Float.toString(manifold.getPoints()[j].x)+";"+Float.toString(manifold
-		 * .getPoints()[j].y)+"]";
-		 * 
-		 * 
-		 * 
-		 * } Log.e("contact",p);
-		 */
-		/*
-		 * WorldManifold manifold = contact.getWorldManifold();
-		 * for (int j = 0; j < manifold.getNumberOfContactPoints(); j++) {
-		 * 
-		 * if (contact.getFixtureA().getUserData() != null
-		 * && contact.getFixtureA().getUserData().equals("ball")) {
-		 * //contact.setEnabled(false);
-		 * Gdx.app.debug(TAG, "Ball collision");
-		 * }
-		 * 
-		 * if (contact.getFixtureB().getUserData() != null
-		 * && contact.getFixtureB().getUserData().equals("ball")) {
-		 * 
-		 * // contact.setEnabled(false);
-		 * Gdx.app.debug(TAG, "Ball collision");
-		 * }
-		 * }
-		 */
+
 	}
 
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		// Gdx.app.debug(TAG, "Ball collision " +
-		// contact.getFixtureA().getUserData());
 
 	}
 

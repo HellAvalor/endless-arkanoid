@@ -23,25 +23,25 @@ public class Brick extends AbstractGameObject {
 		case UNDESTR:
 			this.type = BRICK_TYPE.UNDESTR;
 			brickLife = -1;
-			regBrick = Assets.instance.bricks.undestrBrick;
+			regBrick = getRegBrick(type);
 			break;
 
 		case SIMPLE:
 			this.type = BRICK_TYPE.SIMPLE;
 			brickLife = 1;
-			regBrick = Assets.instance.bricks.simpleBrick;
+			regBrick = getRegBrick(type);
 			break;
-			
+
 		case DOUBLE:
 			this.type = BRICK_TYPE.DOUBLE;
 			brickLife = 2;
-			regBrick = Assets.instance.bricks.doubleBrick;
+			regBrick = getRegBrick(type);
 			break;
 
 		case BONUS:
 			this.type = BRICK_TYPE.BONUS;
 			brickLife = 1;
-			regBrick = Assets.instance.bricks.bonusBrick;
+			regBrick = getRegBrick(type);
 			break;
 
 		default:
@@ -50,6 +50,35 @@ public class Brick extends AbstractGameObject {
 
 		// Set bounding box for collision detection
 		bounds.set(0, 0, dimension.x, dimension.y);
+	}
+
+	public TextureRegion getRegBrick(BRICK_TYPE type) {
+		switch (type) {
+		case UNDESTR:
+			return Assets.instance.bricks.undestrBrick;
+	
+		case SIMPLE:
+			return Assets.instance.bricks.simpleBrick;
+		
+		case DOUBLE:
+			return Assets.instance.bricks.doubleBrick;
+		
+		case BONUS:
+			return Assets.instance.bricks.bonusBrick;
+
+		default:
+			return Assets.instance.bricks.undestrBrick;
+		}
+
+	}
+
+	public BRICK_TYPE getType() {
+		return type;
+	}
+
+	public void setType(BRICK_TYPE type) {
+		this.type = type;
+		this.regBrick = getRegBrick(type);
 	}
 
 	public void render(SpriteBatch batch) {

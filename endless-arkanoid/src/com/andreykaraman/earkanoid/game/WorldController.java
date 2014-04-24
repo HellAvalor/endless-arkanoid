@@ -169,15 +169,7 @@ public class WorldController extends InputAdapter implements Disposable {
 			}
 		}
 
-		for (int i = 0; i < level.bricks.size; i++) {
-
-			if (level.bricks.get(i).body.getFixtureList().get(0).getUserData()
-					.equals("delete")) {
-				level.bricks.removeIndex(i);
-				i--;
-				Gdx.app.debug(TAG, "Delete obj " + level.bricks.size + " " + i);
-			}
-		}
+		brickCollisionProceed();
 
 		for (Body body : deleteBodyArray) {
 			b2world.destroyBody(body);
@@ -313,22 +305,10 @@ public class WorldController extends InputAdapter implements Disposable {
 		touchX = Math.max(1f + level.platform.dimension.x / 2, touchX);
 		touchX = (float) Math.min(Constants.VIEWPORT_WIDTH - 1
 				- level.platform.dimension.x / 2, touchX);
-		// если левее выше перса, то указываем, чтобы игрок двигался влево
-		/*
-		 * if (touchX < level.platform.body.getPosition().x) {
-		 * platformLeft(delta);
-		 * }
-		 * // если кликнули правее перса, то указываем, чтобы игрок двигался
-		 * вправо
-		 * if (touchX > level.platform.body.getPosition().x) {
-		 * platformRight(delta);
-		 * }
-		 */
+
 		platformPositionSet(touchX);
-		// float delta = Math.abs(touchX - level.platform.body.getPosition().x);
+
 	}
-
-
 
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
@@ -442,4 +422,33 @@ public class WorldController extends InputAdapter implements Disposable {
 		circleShape.dispose();
 	}
 
+	private void brickCollisionProceed() {
+
+		for (int i = 0; i < level.bricks.size; i++) {
+
+			Brick brick = level.bricks.get(i);
+
+			if (brick.body.getFixtureList().get(0).getUserData()
+					.equals("toched")) {
+				if (brick.brickLife == 1) {
+					deleteBodyArray.add(level.bricks.get(i).body);
+					level.bricks.removeIndex(i);
+					i--;
+					Gdx.app.debug(TAG, "Delete obj " + level.bricks.size + " "
+							+ i);
+				} else {
+					switch (brick.type) {
+					case DOUBLE:
+						brick.setType(Constants.BRICK_TYPE.SIMPLE);
+						brick.brickLife = 1;
+						brick.body.getFixtureList().get(0).setUserData("brick");
+						break;
+					default:
+						break;
+					}
+				}
+
+			}
+		}
+	}
 }
